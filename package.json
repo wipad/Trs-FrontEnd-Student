@@ -1,0 +1,76 @@
+{
+  "name": "trs-frontend-student",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@beam-australia/react-env": "^3.1.1",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.3",
+    "@mui/material": "^5.0.3",
+    "@mui/styles": "^5.0.1",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.8",
+    "clsx": "^1.1.1",
+    "express": "^4.17.1",
+    "fetch-mock": "^9.11.0",
+    "firebase": "^8.6.1",
+    "i18next": "^20.2.2",
+    "i18next-browser-languagedetector": "^6.1.1",
+    "i18next-xhr-backend": "^3.2.2",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-dotenv-mode": "^1.1.9",
+    "react-firebaseui": "^5.0.2",
+    "react-helmet": "^6.1.0",
+    "react-i18next": "^11.8.15",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "react-test-renderer": "^17.0.2",
+    "redux": "^4.1.0",
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
+    "web-vitals": "^1.1.2",
+    "workbox-background-sync": "^6.1.5",
+    "workbox-broadcast-update": "^6.1.5",
+    "workbox-cacheable-response": "^6.1.5",
+    "workbox-core": "^6.1.5",
+    "workbox-expiration": "^6.1.5",
+    "workbox-google-analytics": "^6.1.5",
+    "workbox-navigation-preload": "^6.1.5",
+    "workbox-precaching": "^6.1.5",
+    "workbox-range-requests": "^6.1.5",
+    "workbox-routing": "^6.1.5",
+    "workbox-strategies": "^6.1.5",
+    "workbox-streams": "^6.1.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start:beta": "REACT_APP_ENV=beta react-dotenv-mode react-scripts start",
+    "start:prod": "node serve.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
