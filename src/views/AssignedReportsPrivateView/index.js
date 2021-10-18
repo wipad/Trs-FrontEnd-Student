@@ -141,7 +141,7 @@ function DialogAdd(props) {
                         required
                         value={change.title}
                         onChange={(e) => {
-                              setChange({ ...change, title: e.target.value,date: props.date })
+                              setChange({ ...change, title: e.target.value, date: props.date })
 
                         }}
                         style={{
@@ -176,7 +176,7 @@ function DialogAdd(props) {
                         value={change.subheader}
                         onChange={(e) => {
 
-                              setChange({ ...change, subheader: e.target.value,date: props.date })
+                              setChange({ ...change, subheader: e.target.value, date: props.date })
                         }}
                         style={{
                               width: "100%"
@@ -199,7 +199,7 @@ function DialogAdd(props) {
             <DialogActions>
                   <Button onClick={() => {
 
-                       
+
                         console.log(change)
                         newAssignedReports.push(change)
                         dispatch({ type: 'ASSIGNEDREPORTS_CHANGE', payload: newAssignedReports });
@@ -232,6 +232,9 @@ function DialogEdit(props) {
             subheader: "",
             date: ""
       })
+
+      const dispatch = useDispatch();
+
       return (<Dialog
             open={props.open}
             onClose={props.onClose}
@@ -296,8 +299,10 @@ function DialogEdit(props) {
             </DialogContent>
             <DialogActions>
                   <Button onClick={() => {
-                        setChange({ ...change, date: new Date() })
-                        props.onClose()
+                        // setChange({ ...change })
+                        props.array[props.index] = change;
+                        dispatch({ type: "ASSIGNEDREPORTS_CHANGE", payload: props.array })
+                        props.onClose();
                   }}>{"บันทึก"}</Button>
                   {/* <Button onClick={props.onClose}>Subscribe</Button> */}
             </DialogActions>
@@ -416,12 +421,14 @@ function AssignedReportsCard(props) {
                   date={props.date}
                   onClose={() => { setOpen({ ...open, launch: false }) }}></DialogLaunch>
             <DialogEdit
+                  index={props.index}
                   open={open.edit}
                   title={props.title}
                   subheader={props.detail}
                   date={props.date}
                   onClose={() => { setOpen({ ...open, edit: false }) }}></DialogEdit>
             <DialogDelete
+                  index={props.index}
                   open={open.delete}
                   title={props.title}
                   subheader={props.detail}
@@ -439,7 +446,7 @@ function AssignedReportsPrivateView(props) {
 
       const assignedReports = useSelector(state => state.assignedReports);
 
-      const dispatch = useDispatch();
+
 
       const d = new Date();
 
@@ -483,7 +490,7 @@ function AssignedReportsPrivateView(props) {
                                           {assignedReports.array.length ? (<React.Fragment>
                                                 {assignedReports.array.map((val, index, array) => (
                                                       <React.Fragment key={index}>
-                                                            <AssignedReportsCard {...val} />
+                                                            <AssignedReportsCard {...val} index={index} key={index} array={array} />
                                                       </React.Fragment>))}
                                           </React.Fragment>) : (<React.Fragment>
                                                 <Typography variant="h6" style={{
