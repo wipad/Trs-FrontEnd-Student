@@ -245,7 +245,10 @@ function DialogEdit(props) {
                         required
                         value={!change.title ? props.title : change.title}
                         onChange={(e) => {
-                              setChange({ ...change, title: e.target.value })
+                              setChange({
+                                    ...change, title: !change.title ? props.title : e.target.value,
+                                    subheader: !change.subheader ? props.subheader : change.subheader
+                              })
 
                         }}
                         style={{
@@ -272,7 +275,7 @@ function DialogEdit(props) {
                         required
                         value={!change.subheader ? props.subheader : change.subheader}
                         onChange={(e) => {
-                              setChange({ ...change, subheader: e.target.value })
+                              setChange({ ...change, title: !change.title ? props.title : change.title, subheader: !change.subheader ? props.subheader : e.target.value })
                         }}
                         style={{
                               width: "100%"
@@ -297,7 +300,7 @@ function DialogEdit(props) {
                         // setChange({ ...change })
                         const newArray = props.array
                         console.log(newArray);
-                        newArray["0"] = {
+                        newArray[props.index] = {
                               title: props.title,
                               subheader: props.subheader,
                               ...change
