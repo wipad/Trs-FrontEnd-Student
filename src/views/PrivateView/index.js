@@ -19,7 +19,9 @@ import {
       Switch,
       Route
 } from "react-router-dom";
+import Grid from '@mui/material/Grid';
 import NoMatch from '../NoMatch';
+import AssignedReportsPrivateView from './../AssignedReportsPrivateView/index';
 
 function PrivateView() {
       const fakeAuth = useSelector(state => state.auth);
@@ -36,57 +38,69 @@ function PrivateView() {
                         <title>React JS | Home</title>
                         <meta name="description" content="Helmet application" />
                   </Helmet>
-
-                  <Drawer
-                        variant="permanent"
-                        sx={{
-                              width: drawerWidth,
-                              flexShrink: 0,
-                              [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-                        }}
+                  <Grid
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
                   >
-                        <Toolbar />
-                        <Toolbar />
-                        <Box sx={{ overflow: 'auto' }}>
-                              <List>
-                                    <ListItem button >
-                                          {/* <ListItemIcon>
+                        <Grid item xs={3}>
+                              <Drawer
+                                    variant="permanent"
+                                    sx={{
+                                          width: drawerWidth,
+                                          flexShrink: 0,
+                                          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+                                    }}
+                              >
+                                    <Toolbar />
+                                    <Toolbar />
+                                    <Box sx={{ overflow: 'auto' }}>
+                                          <List>
+                                                <ListItem button >
+                                                      {/* <ListItemIcon>
                                                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                                       </ListItemIcon> */}
-                                          <ListItemText primary={"รายงานที่ได้รับมอบหมาย"} onClick={() => { history.push('/assigned-reports') }} />
-                                    </ListItem>
-                                    <ListItem button >
-                                          {/* <ListItemIcon>
+                                                      <ListItemText primary={"รายงานที่ได้รับมอบหมาย"} onClick={() => { history.push('/assigned-reports') }} />
+                                                </ListItem>
+                                                <ListItem button >
+                                                      {/* <ListItemIcon>
                                                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                                       </ListItemIcon> */}
-                                          <ListItemText primary={"บันทึกรายวัน"} onClick={() => { history.push('/journal') }} />
-                                    </ListItem>
-                                    <ListItem button >
-                                          {/* <ListItemIcon>
+                                                      <ListItemText primary={"บันทึกรายวัน"} onClick={() => { history.push('/journal') }} />
+                                                </ListItem>
+                                                <ListItem button >
+                                                      {/* <ListItemIcon>
                                                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                                                       </ListItemIcon> */}
-                                          <ListItemText primary={"บันทึกรายสัปดาห์"} onClick={() => { history.push('/weekly-record') }} />
-                                    </ListItem>
-                              </List>
-                        </Box>
-                  </Drawer>
-                  <Switch>
-                        <Route exact={true} path="/">
-                        <h1>{"หน้าแรก"}</h1>
-                        </Route>
-                        <Route path="/assigned-reports">
-                              <h1>{"รายงานที่ได้รับมอบหมาย"}</h1>
-                        </Route>
-                        <Route path="/journal">
-                              <h1>{"บันทึกรายวัน"}</h1>
-                        </Route>
-                        <Route path="/weekly-record">
-                              <h1>{"บันทึกรายสัปดาห์"}</h1>
-                        </Route>
-                        <Route path="/*">
-                              <NoMatch />
-                        </Route>
-                  </Switch>
+                                                      <ListItemText primary={"บันทึกรายสัปดาห์"} onClick={() => { history.push('/weekly-record') }} />
+                                                </ListItem>
+                                          </List>
+                                    </Box>
+                              </Drawer>
+                        </Grid>
+                        <Grid item xs={9}>
+                              <Switch>
+                                    <Route exact={true} path="/">
+                                          <h1>{"หน้าแรก"}</h1>
+                                    </Route>
+                                    <Route path="/assigned-reports">
+                                          <AssignedReportsPrivateView></AssignedReportsPrivateView>
+                                    </Route>
+                                    <Route path="/journal">
+                                          <h1>{"บันทึกรายวัน"}</h1>
+                                    </Route>
+                                    <Route path="/weekly-record">
+                                          <h1>{"บันทึกรายสัปดาห์"}</h1>
+                                    </Route>
+                                    <Route path="/*">
+                                          <NoMatch />
+                                    </Route>
+                              </Switch>
+
+                        </Grid>
+                  </Grid>
+
 
 
 

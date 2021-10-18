@@ -36,9 +36,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Alert(props) {
-      return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+const Alert = React.forwardRef(function Alert(props, ref) {
+      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function LoginView(props) {
       const classes = useStyles();
@@ -52,51 +52,48 @@ function LoginView(props) {
             msg: ''
       });
 
-      const [dataExample,setDataExample] =React.useState([
+      const [dataExample, setDataExample] = React.useState([
             {
-                  studentId:"59180030",
+                  studentId: "59180030",
                   idCard: "1409901607307"
             },
             {
-                  studentId:"59180031",
+                  studentId: "59180031",
             }
       ])
 
       const user = useSelector(state => state.user);
 
-      const { t } = useTranslation()
       const dispatch = useDispatch();
+      const { t } = useTranslation()
       const history = useHistory();
 
       const handleChange = (prop) => (event) => {
             setValues({ ...values, [prop]: event.target.value });
       };
 
-  
+
 
       const handleClickLogIn = () => {
-            dataExample.map((value,index,array) => {
+            dataExample.map((value, index, array) => {
                   if (value.studentId === values.studentId) {
-                      
+
                         if (value.idCard) {
                               dispatch({ type: 'AUTHENTICATED', payload: true });
                               history.push('/')
                         } else {
                               history.push('/register')
-                              setNoti({
-                                    open: true,
-                                    msg: 'password ไม่ถูกต้อง'
-                              })
+
                         }
-                
+
                   } else {
                         setNoti({
                               open: true,
-                              msg: 'studentId ไม่ถูกต้อง'
+                              msg: 'รหัสนักศึกษา ไม่ถูกต้อง'
                         })
                   }
             })
-            
+
 
       }
 
@@ -118,7 +115,9 @@ function LoginView(props) {
                         justifyContent: 'center',
                         height: '100%',
                   }}>
-                        <Paper style={{
+                        <Paper 
+                        elevation={0}
+                        style={{
                               padding: 30
                         }}>
                               <Grid
@@ -144,13 +143,13 @@ function LoginView(props) {
                                                 name="student-id"
                                                 value={values.studentId}
                                                 onChange={handleChange('studentId')}
-                                                // InputProps={{
-                                                //       startAdornment: <AccountCircleIcon />,
-                                                // }}
+                                          // InputProps={{
+                                          //       startAdornment: <AccountCircleIcon />,
+                                          // }}
                                           />
                                     </Grid>
                                     <Grid item xs={12}>
-                                          <Button variant="contained" color="primary" onClick={handleClickLogIn}>
+                                          <Button variant="outlined" color="primary" onClick={handleClickLogIn}>
                                                 {t("ยืนยันตัวตน")}
                                           </Button>
                                     </Grid>
@@ -160,12 +159,17 @@ function LoginView(props) {
                               </Grid>
                         </Paper>
                   </div>
-                  <Snackbar open={noti.open} autoHideDuration={6000} onClose={handleClose}>
+                  <Snackbar open={noti.open} autoHideDuration={6000} onClose={handleClose}
+                        anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'center',
+                        }}
+                  >
                         <Alert onClose={handleClose} severity="error">
                               {t(`${noti.msg}`)}
                         </Alert>
                   </Snackbar>
-            </React.Fragment>
+            </React.Fragment >
       )
 }
 
