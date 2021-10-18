@@ -121,8 +121,7 @@ function DialogAdd(props) {
 
       const [change, setChange] = React.useState({
             title: "",
-            subheader: "",
-            date: props.date
+            subheader: ""
       })
 
 
@@ -154,8 +153,7 @@ function DialogAdd(props) {
                         onClick={() => {
                               setChange({
                                     title: "",
-                                    subheader: "",
-                                    date: props.date
+                                    subheader: ""
                               })
                               props.onClose()
                         }}
@@ -205,8 +203,7 @@ function DialogAdd(props) {
                         dispatch({ type: 'ASSIGNEDREPORTS_CHANGE', payload: newAssignedReports });
                         setChange({
                               title: "",
-                              subheader: "",
-                              date: props.date
+                              subheader: ""
                         })
                         props.onClose()
                   }}>{"บันทึก"}</Button>
@@ -219,7 +216,6 @@ function DialogAdd(props) {
 DialogAdd.propTypes = {
       onClose: PropTypes.func,
       open: PropTypes.bool,
-      date: PropTypes.string,
       /**
        * Injected by the documentation to work in an iframe.
        * You won't need it on your project.
@@ -229,8 +225,7 @@ DialogAdd.propTypes = {
 function DialogEdit(props) {
       const [change, setChange] = React.useState({
             title: "",
-            subheader: "",
-            date: ""
+            subheader: ""
       })
 
       const dispatch = useDispatch();
@@ -300,8 +295,15 @@ function DialogEdit(props) {
             <DialogActions>
                   <Button onClick={() => {
                         // setChange({ ...change })
-                        props.array[props.index] = change;
-                        dispatch({ type: "ASSIGNEDREPORTS_CHANGE", payload: props.array })
+                        const newArray = props.array
+                        console.log(newArray);
+                        newArray["0"] = {
+                              title: props.title,
+                              subheader: props.subheader,
+                              ...change
+                        };
+                        console.log(newArray);
+                        dispatch({ type: "ASSIGNEDREPORTS_CHANGE", payload: newArray })
                         props.onClose();
                   }}>{"บันทึก"}</Button>
                   {/* <Button onClick={props.onClose}>Subscribe</Button> */}
@@ -314,8 +316,7 @@ DialogEdit.propTypes = {
       onClose: PropTypes.func,
       open: PropTypes.bool,
       title: PropTypes.string,
-      subheader: PropTypes.string,
-      date: PropTypes.string,
+      subheader: PropTypes.string
       /**
        * Injected by the documentation to work in an iframe.
        * You won't need it on your project.
@@ -323,6 +324,8 @@ DialogEdit.propTypes = {
 };
 
 function DialogDelete(props) {
+      const dispatch = useDispatch();
+
       return (<Dialog
             open={props.open}
             onClose={props.onClose}
@@ -334,10 +337,7 @@ function DialogDelete(props) {
       >
             <DialogTitle id="scroll-dialog-title">
                   <Typography> {props.title}</Typography>
-                  <Typography variant="body2" style={{
-                        fontSize: "12px",
-                        color: "gray",
-                  }}> {props.date}</Typography>
+
                   <IconButton
                         aria-label="close"
                         onClick={props.onClose}
@@ -362,7 +362,13 @@ function DialogDelete(props) {
                   </DialogContentText>
             </DialogContent>
             <DialogActions>
-                  <Button onClick={props.onClose}>{"ใช่"}</Button>
+                  <Button onClick={() => {
+                        const removeArray = props.array
+                        delete removeArray[props.index]
+                        console.log(removeArray);
+                        dispatch({ type: "ASSIGNEDREPORTS_CHANGE", payload: removeArray })
+                        props.onClose()
+                  }}>{"ใช่"}</Button>
                   <Button onClick={props.onClose}>{"ไม่"}</Button>            </DialogActions>
       </Dialog>)
 }
@@ -373,7 +379,6 @@ DialogDelete.propTypes = {
       open: PropTypes.bool,
       title: PropTypes.string,
       subheader: PropTypes.string,
-      date: PropTypes.string,
       /**
        * Injected by the documentation to work in an iframe.
        * You won't need it on your project.
@@ -417,22 +422,21 @@ function AssignedReportsCard(props) {
             <DialogLaunch
                   open={open.launch}
                   title={props.title}
-                  subheader={props.detail}
-                  date={props.date}
+                  subheader={props.subheader}
                   onClose={() => { setOpen({ ...open, launch: false }) }}></DialogLaunch>
             <DialogEdit
+                  array={props.array}
                   index={props.index}
                   open={open.edit}
                   title={props.title}
-                  subheader={props.detail}
-                  date={props.date}
+                  subheader={props.subheader}
                   onClose={() => { setOpen({ ...open, edit: false }) }}></DialogEdit>
             <DialogDelete
+                  array={props.array}
                   index={props.index}
                   open={open.delete}
                   title={props.title}
-                  subheader={props.detail}
-                  date={props.date}
+                  subheader={props.subheader}
                   onClose={() => { setOpen({ ...open, delete: false }) }}></DialogDelete>
       </Card>)
 }
@@ -442,17 +446,10 @@ function AssignedReportsPrivateView(props) {
       const [open, setOpen] = React.useState({
             add: false,
       });
-      const [date, setDate] = React.useState("")
 
       const assignedReports = useSelector(state => state.assignedReports);
 
 
-
-      const d = new Date();
-
-      React.useEffect(() => {
-            setDate(d.toLocaleString())
-      }, [d])
 
       return (
             <React.Fragment>
@@ -473,7 +470,6 @@ function AssignedReportsPrivateView(props) {
                                                 <Typography component="div" sx={{ flexGrow: 1 }} />
                                                 <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {
                                                       setOpen({ ...open, add: true })
-                                                      setDate(d.toLocaleString())
                                                 }}>
                                                       {"เพิ่ม"}
                                                 </Button>
@@ -504,7 +500,6 @@ function AssignedReportsPrivateView(props) {
                         </Box>
                   </Container>
                   <DialogAdd
-                        date={date}
                         open={open.add}
                         onClose={() => {
                               setOpen({ ...open, add: false })
